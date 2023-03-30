@@ -4,7 +4,7 @@ properties([
 
 timestamps {
     ansiColor('xterm') {
-        node('master') {
+        node {
             try {
                 notifyBuild('STARTED')
                 stage('Checkout') {
@@ -14,13 +14,15 @@ timestamps {
                     stage('Build') {
                         if (env.BRANCH_NAME == 'master') {
                             // Build and deploy the project if master branch
-                            sh '''
+                            node('main') {
+                                sh '''
                                 pm2 stop 0 || true
                                 pm2 delete www || true
                                 npm install
                                 node db.js
                                 pm2 start ./bin/www
                             '''.stripIndent()
+                            }
                         } else {
                             println 'Skip to build on Spot due to branch not master'
                         }
