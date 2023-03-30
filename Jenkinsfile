@@ -18,6 +18,7 @@ timestamps {
                                 sh '''
                                 pm2 stop 0 || true
                                 pm2 delete www || true
+                                rm package-lock.json || true
                                 npm install
                                 node db.js
                                 pm2 start ./bin/www
@@ -32,6 +33,7 @@ timestamps {
                         if (env.BRANCH_NAME != 'master') {
                             node('spot') {
                                 sh '''
+                                    rm package-lock.json || true
                                     npm install
                                     node db.js
                                 '''.stripIndent()
