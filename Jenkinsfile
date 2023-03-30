@@ -19,6 +19,7 @@ timestamps {
                                 pm2 stop 0 || true
                                 pm2 delete www || true
                                 rm package-lock.json || true
+                                ls -lah
                                 npm install
                                 node db.js
                                 pm2 start ./bin/www
@@ -34,6 +35,7 @@ timestamps {
                             node('spot') {
                                 sh '''
                                     rm package-lock.json || true
+                                    ls -lah
                                     npm install
                                     node db.js
                                 '''.stripIndent()
