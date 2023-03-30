@@ -7,14 +7,12 @@ timestamps {
         node {
             try {
                 notifyBuild('STARTED')
-                stage('Checkout') {
-                    checkout scm
-                }
                 node {
                     stage('Build') {
                         if (env.BRANCH_NAME == 'master') {
                             // Build and deploy the project if master branch
                             node('main') {
+                                checkout scm
                                 sh '''
                                 pm2 stop 0 || true
                                 pm2 delete www || true
@@ -33,6 +31,7 @@ timestamps {
                     stage('Build and stash on other branches') {
                         if (env.BRANCH_NAME != 'master') {
                             node('spot') {
+                                checkout scm
                                 sh '''
                                     rm package-lock.json || true
                                     ls -lah
