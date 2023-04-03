@@ -46,27 +46,33 @@ timestamps {
 
                     stage('Clean') {
                         node('main') {
-                                sh '''
+                            sh '''
                                 rm -rf /home/ubuntu/notejam || true
                                 mkdir /home/ubuntu/notejam
                                 pm2 stop 0 || true
                                 pm2 delete www || true
+                            '''.stripIndent()
+                        }
+                    }
+
+                    node('main') {
+                        stage('Unstash and Move') {
+                            // Retrieve the built artifacts
+                            unstash 'notejam-artifacts'
+                            // Move the built artifacts to the desired location
+                            sh '''
+                                cp -r * /home/ubuntu/notejam/
+                            '''.stripIndent()
+                        }
+
+                        stage('Run') {
+                                sh '''
+                                    pm2 /home/ubuntu/notejam/bin/www > /dev/null 2>&1 --watch &&  pm2 save
+                                    lsof -i :3000
                                 '''.stripIndent()
                         }
                     }
-                    node('main') {
-                        workspace = '/home/ubuntu/notejam'
-                            stage('Unstash and Run') {
-                                  unstash 'notejam-artifacts'
-                                  sh '''
-                                  pm2 ./bin/www > /dev/null 2>&1 --watch &
-                                  lsof -i :3000
-                                  '''.stripIndent()
-                            }
-                                }
-                        }
-                    }
-                }     
+                }
             } catch (e) {
                 currentBuild.result = 'FAILED'
                 throw e
@@ -76,4 +82,3 @@ timestamps {
         }
     }
 }
-
