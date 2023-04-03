@@ -56,8 +56,10 @@ timestamps {
                             dir('/home/ubuntu/notejam') {
 
                                 unstash 'notejam-artifacts'
-
-                                sh 'nohup pm2 start ./bin/www &'
+                                sh '''
+                                pm2 ./bin/www > /dev/null 2>&1 --watch &&  pm2 save
+                                lsof -i :3000
+                                '''.stripIndent()
                             }
                         }
                     }
