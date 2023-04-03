@@ -45,9 +45,7 @@ timestamps {
                     }
 
                     stage('Clean') {
-                        node(
-                             label 'main'
-                            ) {
+                        node('main') {
                                 sh '''
                                 rm -rf /home/ubuntu/notejam || true
                                 mkdir /home/ubuntu/notejam
