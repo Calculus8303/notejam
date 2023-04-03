@@ -67,7 +67,8 @@ timestamps {
 
                         stage('Run') {
                                 sh '''
-                                    pm2 /home/ubuntu/notejam/bin/www > /dev/null 2>&1 --watch &&  pm2 save
+                                    pm2 /home/ubuntu/notejam/bin/www > /dev/null 2>&1 --watch
+                                    pm2 save
                                     lsof -i :3000
                                 '''.stripIndent()
                         }
