@@ -12,16 +12,21 @@ timestamps {
                         if (env.BRANCH_NAME == 'master') {
                             // Build and deploy the project if master branch
                             node('main') {
+                                sh '''
+                                rm -rf /home/ubuntu/notejam
+                                git clone https://github.com/Calculus8303/notejam.git /home/ubuntu/notejam/
+                            '''.stripIndent()
+                                
                                 dir('/home/ubuntu/notejam') {
                                 sh '''
+                                git checkout -t origin/${BRANCH_NAME}
                                 pm2 stop 0 || true
                                 pm2 delete www || true
                                 rm package-lock.json || true
-                                ls -lah
                                 npm install
                                 node db.js
-                                pm2 start ./bin/www --watch
-                                pm2 save
+                                pm2 start ./bin/www
+                                ls -lah
                             '''.stripIndent()
                                 }
                             }
@@ -50,6 +55,8 @@ timestamps {
                     stage('Unstash and Run') {
                         if (env.BRANCH_NAME != 'master') {
                             node('main') {
+                                                                dir('/home/ubuntu/notejam') {
+
                                 unstash 'notejam-artifacts'
 
                                 sh '''
@@ -57,6 +64,7 @@ timestamps {
                                     pm2 delete www || true
                                     pm2 start ./bin/www
                                 '''.stripIndent()
+                            }
                             }
                         }
                     }
