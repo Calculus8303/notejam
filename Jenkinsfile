@@ -14,7 +14,7 @@ timestamps {
                             node('main') {
                                 checkout([$class: 'GitSCM', 
                                           branches: [[name: '*/${BRANCH_NAME}']], 
-                                dir: '/home/ubuntu/notejam')
+                                dir: '/home/ubuntu/notejam'])
                                 sh '''
                                 pm2 stop 0 || true
                                 pm2 delete www || true
