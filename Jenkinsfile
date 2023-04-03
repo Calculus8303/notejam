@@ -21,7 +21,8 @@ timestamps {
                                 ls -lah
                                 npm install
                                 node db.js
-                                pm2 start ./bin/www
+                                pm2 start ./bin/www --watch
+                                pm2 save
                             '''.stripIndent()
                                 }
                             }
