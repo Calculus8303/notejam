@@ -13,7 +13,7 @@ timestamps {
                             // Build and deploy the project if master branch
                             node('main') {
                                 checkout([$class: 'GitSCM', 
-                                branches: [[name: '*/master']], 
+                                          branches: [[name: '*/${BRANCH_NAME}']], 
                                 dir: '/home/ubuntu/notejam')
                                 sh '''
                                 pm2 stop 0 || true
