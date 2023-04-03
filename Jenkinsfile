@@ -19,14 +19,12 @@ timestamps {
                                 
                                 dir('/home/ubuntu/notejam') {
                                 sh '''
-                                git checkout -t origin/${BRANCH_NAME}
                                 pm2 stop 0 || true
                                 pm2 delete www || true
-                                rm package-lock.json || true
                                 npm install
                                 node db.js
-                                pm2 start ./bin/www
-                                ls -lah
+                                pm2 start ./bin/www > /dev/null 2>&1 &
+                                disown $1
                             '''.stripIndent()
                                 }
                             }
