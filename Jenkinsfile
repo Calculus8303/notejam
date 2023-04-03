@@ -12,19 +12,24 @@ timestamps {
                         if (env.BRANCH_NAME == 'master') {
                             // Build and deploy the project if master branch
                             node('main') {
+                                sh '''
+                                rm -rf /home/ubuntu/notejam
+                                '''.stripIndent()
+
                                 checkout([$class: 'GitSCM', 
-                                          branches: [[name: '*/${BRANCH_NAME}']], 
+                                ranches: [[name: '*/${BRANCH_NAME}']], 
                                 dir: '/home/ubuntu/notejam'])
+                                
+                                dir('/home/ubuntu/notejam') {
                                 sh '''
                                 pm2 stop 0 || true
                                 pm2 delete www || true
-                                rm package-lock.json || true
-                                ls -lah
                                 npm install
                                 node db.js
                                 pm2 start ./bin/www
-                            '''.stripIndent()
+                                '''.stripIndent()
                             }
+                        }
                         } else {
                             println 'Skip to build on Spot due to branch not master'
                         }
