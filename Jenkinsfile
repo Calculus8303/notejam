@@ -44,24 +44,31 @@ timestamps {
                         }
                     }
 
-                    stage('Unstash and Run') {
-                        node('main') {
+                    stage('Clean') {
+                        node(
+                             label 'main'
+                            ) {
                                 sh '''
                                 rm -rf /home/ubuntu/notejam || true
                                 mkdir /home/ubuntu/notejam
                                 pm2 stop 0 || true
                                 pm2 delete www || true
                                 '''.stripIndent()
+                        }
+                    }
+                    node('main') {
+                        workspace = '/home/ubuntu/notejam'
+                            stage('Unstash and Run') {
+                                {
                                 
                                 unstash 'notejam-artifacts'
-
-                                dir('/home/ubuntu/notejam') {
 
                                 sh '''
                                 pm2 ./bin/www > /dev/null 2>&1 --watch &&  pm2 save
                                 lsof -i :3000
                                 '''.stripIndent()
                             }
+                                }
                         }
                     }
                 }     
