@@ -16,8 +16,7 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
-                                    rm package-lock.json
-                                    rm -rf node_modules
+                                    rm -rf node_modules/ package-lock.json
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
@@ -47,6 +46,11 @@ timestamps {
 
                     stage('Unstash and Run') {
                         node('main') {
+                                sh '''
+                                rm -rf /home/ubuntu/notejam || true
+                                mkdir /home/ubuntu/notejam
+                                '''.stripIndent()
+                                
                             dir('/home/ubuntu/notejam') {
 
                                 unstash 'notejam-artifacts'
