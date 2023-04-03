@@ -57,7 +57,6 @@ timestamps {
                     node('main') {
                         workspace = '/home/ubuntu/notejam'
                             stage('Unstash and Run') {
-                                {
                                   unstash 'notejam-artifacts'
                                   sh '''
                                   pm2 ./bin/www > /dev/null 2>&1 --watch &
