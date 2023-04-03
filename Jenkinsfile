@@ -18,7 +18,8 @@ timestamps {
 
                                 checkout([$class: 'GitSCM', 
                                 ranches: [[name: '*/${BRANCH_NAME}']], 
-                                dir: '/home/ubuntu/notejam'])
+                                dir: '/home/ubuntu/notejam')
+                                ])
                                 
                                 dir('/home/ubuntu/notejam') {
                                 sh '''
