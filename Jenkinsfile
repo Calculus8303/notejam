@@ -24,7 +24,6 @@ timestamps {
                                 npm install
                                 node db.js
                                 pm2 start ./bin/www > /dev/null 2>&1 &
-                                disown $1
                             '''.stripIndent()
                                 }
                             }
