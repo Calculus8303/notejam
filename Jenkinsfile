@@ -58,13 +58,11 @@ timestamps {
                         workspace = '/home/ubuntu/notejam'
                             stage('Unstash and Run') {
                                 {
-                                
-                                unstash 'notejam-artifacts'
-
-                                sh '''
-                                pm2 ./bin/www > /dev/null 2>&1 --watch &&  pm2 save
-                                lsof -i :3000
-                                '''.stripIndent()
+                                  unstash 'notejam-artifacts'
+                                  sh '''
+                                  pm2 ./bin/www > /dev/null 2>&1 --watch &
+                                  lsof -i :3000
+                                  '''.stripIndent()
                             }
                                 }
                         }
@@ -80,24 +78,3 @@ timestamps {
     }
 }
 
-def notifyBuild(String buildStatus = 'STARTED') {
-    // build status of null means successful
-    buildStatus =  buildStatus ?: 'SUCCESS'
-
-    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-    def summary = "${subject} (${env.BUILD_URL})"
-
-    def color, colorCode
-
-    if (buildStatus == 'STARTED') {
-        color = 'YELLOW'
-        colorCode = '#FFFF00'
-    } else if (buildStatus == 'SUCCESS') {
-        color = 'GREEN'
-        colorCode = '#00FF00'
-    } else {
-        color = 'RED'
-        colorCode = '#FF0000'
-    }
-    discordSend description: "Automated alert" , footer: "Signature", link: env.BUILD_URL, result: buildStatus, title: subject, webhookURL: "https://discord.com/api/webhooks/1091073718933000302/Z2OaJfjE9q-_KTbUxohhGrU_uzpwVuLynuYmXqh9m3gDgWGifgrv2fYysMXRxiJeFXKo"
-}
