@@ -57,7 +57,7 @@ timestamps {
 
                                 unstash 'notejam-artifacts'
 
-                                background 'pm2 start ./bin/www'
+                                sh background: true, script: 'pm2 start ./bin/www'
                             }
                         }
                     }
