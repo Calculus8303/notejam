@@ -12,21 +12,19 @@ timestamps {
                         if (env.BRANCH_NAME == 'master') {
                             // Build and deploy the project if master branch
                             node('main') {
+                                checkout scm
                                 sh '''
-                                rm -rf /home/ubuntu/notejam
-                                git clone https://github.com/Calculus8303/notejam.git /home/ubuntu/notejam/
-                            '''.stripIndent()
-                                
-                                dir('/home/ubuntu/notejam') {
-                                sh '''
-                                pm2 stop 0 || true
-                                pm2 delete www || true
-                                npm install
-                                node db.js
-                                pm2 start ./bin/www > /dev/null 2>&1 &
-                            '''.stripIndent()
-                                }
+                                    npm install
+                                    node db.js
+                                    rm package-lock.json
+                                    rm -rf node_modules
+                                '''.stripIndent()
+
+                                // Stash the built artifacts
+                                stash includes: '**/*', name: 'notejam-artifacts'
                             }
+                        }
+                    }
                         } else {
                             println 'Skip to build on Spot due to branch not master'
                         }
@@ -37,10 +35,10 @@ timestamps {
                             node('spot') {
                                 checkout scm
                                 sh '''
-                                    rm package-lock.json || true
-                                    ls -lah
                                     npm install
                                     node db.js
+                                    rm package-lock.json
+                                    rm -rf node_modules
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
@@ -50,9 +48,8 @@ timestamps {
                     }
 
                     stage('Unstash and Run') {
-                        if (env.BRANCH_NAME != 'master') {
                             node('main') {
-                                                                dir('/home/ubuntu/notejam') {
+                            dir('/home/ubuntu/notejam') {
 
                                 unstash 'notejam-artifacts'
 
@@ -61,11 +58,10 @@ timestamps {
                                     pm2 delete www || true
                                     pm2 start ./bin/www
                                 '''.stripIndent()
-                            }
+                                }
                             }
                         }
                     }
-                }
             } catch (e) {
                 currentBuild.result = 'FAILED'
                 throw e
