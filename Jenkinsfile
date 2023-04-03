@@ -13,7 +13,6 @@ timestamps {
                             // Build and deploy the project if master branch
                             node('main') {
                                 dir('/home/ubuntu/notejam') {
-                                checkout scm
                                 sh '''
                                 pm2 stop 0 || true
                                 pm2 delete www || true
@@ -74,7 +73,7 @@ timestamps {
 
 def notifyBuild(String buildStatus = 'STARTED') {
     // build status of null means successful
-    buildStatus =  buildStatus ?: 'SUCCESSFUL'
+    buildStatus =  buildStatus ?: 'SUCCESS'
 
     def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
     def summary = "${subject} (${env.BUILD_URL})"
@@ -84,7 +83,7 @@ def notifyBuild(String buildStatus = 'STARTED') {
     if (buildStatus == 'STARTED') {
         color = 'YELLOW'
         colorCode = '#FFFF00'
-    } else if (buildStatus == 'SUCCESSFUL') {
+    } else if (buildStatus == 'SUCCESS') {
         color = 'GREEN'
         colorCode = '#00FF00'
     } else {
