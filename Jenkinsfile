@@ -16,7 +16,11 @@ timestamps {
                                 rm -rf /home/ubuntu/notejam
                                 '''.stripIndent()
 
-                                checkout scm(dir: '/home/ubuntu/notejam')
+                                checkout scm
+                                
+                                sh '''
+                                cp -r . /home/ubuntu/notejam
+                                '''.stripIndent()
                                 
                                 dir('/home/ubuntu/notejam') {
                                 sh '''
