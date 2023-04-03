@@ -25,6 +25,7 @@ timestamps {
                             }
                         }
                     }
+                }     
                         } else {
                             println 'Skip to build on Spot due to branch not master'
                         }
