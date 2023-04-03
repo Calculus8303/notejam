@@ -23,9 +23,6 @@ timestamps {
                                 // Stash the built artifacts
                                 stash includes: '**/*', name: 'notejam-artifacts'
                             }
-                        }
-                    }
-                }     
                         } else {
                             println 'Skip to build on Spot due to branch not master'
                         }
@@ -49,7 +46,7 @@ timestamps {
                     }
 
                     stage('Unstash and Run') {
-                            node('main') {
+                        node('main') {
                             dir('/home/ubuntu/notejam') {
 
                                 unstash 'notejam-artifacts'
@@ -59,10 +56,10 @@ timestamps {
                                     pm2 delete www || true
                                     pm2 start ./bin/www
                                 '''.stripIndent()
-                                }
                             }
                         }
                     }
+                }     
             } catch (e) {
                 currentBuild.result = 'FAILED'
                 throw e
@@ -94,4 +91,3 @@ def notifyBuild(String buildStatus = 'STARTED') {
     }
     discordSend description: "Automated alert" , footer: "Signature", link: env.BUILD_URL, result: buildStatus, title: subject, webhookURL: "https://discord.com/api/webhooks/1091073718933000302/Z2OaJfjE9q-_KTbUxohhGrU_uzpwVuLynuYmXqh9m3gDgWGifgrv2fYysMXRxiJeFXKo"
 }
-
