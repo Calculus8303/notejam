@@ -49,17 +49,15 @@ timestamps {
                                 sh '''
                                 rm -rf /home/ubuntu/notejam || true
                                 mkdir /home/ubuntu/notejam
+                                pm2 stop 0 || true
+                                pm2 delete www || true
                                 '''.stripIndent()
                                 
                             dir('/home/ubuntu/notejam') {
 
                                 unstash 'notejam-artifacts'
 
-                                sh '''
-                                    pm2 stop 0 || true
-                                    pm2 delete www || true
-                                    pm2 start ./bin/www
-                                '''.stripIndent()
+                                background 'pm2 start ./bin/www'
                             }
                         }
                     }
