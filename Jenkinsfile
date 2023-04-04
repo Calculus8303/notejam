@@ -48,8 +48,6 @@ timestamps {
                             sh '''
                                 rm -rf /home/ubuntu/notejam || true
                                 mkdir /home/ubuntu/notejam
-                                pm2 stop 0 || true
-                                pm2 delete www || true
                             '''.stripIndent()
                         }
                     }
@@ -66,9 +64,7 @@ timestamps {
 
                         stage('Run') {
                                 sh '''
-                                    pm2 /home/ubuntu/notejam/bin/www > /dev/null 2>&1 --watch
-                                    pm2 save
-                                    lsof -i :3000
+                                ./node_modules/mocha/bin/mocha tests
                                 '''.stripIndent()
                         }
                     }
