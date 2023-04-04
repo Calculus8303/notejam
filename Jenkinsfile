@@ -16,7 +16,7 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
-                                    rm -rf node_modules/ package-lock.json
+                                    rm -rf package-lock.json
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
@@ -35,7 +35,6 @@ timestamps {
                                     npm install
                                     node db.js
                                     rm package-lock.json
-                                    rm -rf node_modules
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
