@@ -90,5 +90,5 @@ def notifyBuild(String buildStatus = 'STARTED') {
         color = 'RED'
         colorCode = '#FF0000'
     }
-    discordSend description: "Automated alert" , footer: "Signature", link: env.BUILD_URL, result: buildStatus, title: subject, webhookURL: "https://discord.com/api/webhooks/1091073718933000302/Z2OaJfjE9q-_KTbUxohhGrU_uzpwVuLynuYmXqh9m3gDgWGifgrv2fYysMXRxiJeFXKo"
+    discordSend description: "Automated alert" , footer: "Signature", link: env.BUILD_URL, result: buildStatus, title: subject, webhookURL: "https://discord.com/api/webhooks/1092779924923883560/Wq6nIfcxIbVK1cwCO9Eg24-b10_xNN9h4S6iF3V_LB3oDzWZy0WRQoAMX5mNXccexpUN"
 }
