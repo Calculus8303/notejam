@@ -44,9 +44,12 @@ timestamps {
                     }
                     
                     node('main') {
+                        env.old = sh (
+                                    script: 'date "+%Y%m%d-%H-%M"',
+                                    returnStdout: true
+                                     ).trim()
                         stage('Clean') {
                             sh '''
-                                old=$(date '+%Y%m%d-%H-%M')
                                 cp /home/ubuntu/notejam/notejam.db /home/ubuntu/notejam.db.${old}
                                 find /home/ubuntu/notejam/* ! -name 'notejam.db' -delete
                             '''.stripIndent()
