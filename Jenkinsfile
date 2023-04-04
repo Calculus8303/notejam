@@ -70,11 +70,15 @@ timestamps {
                         }
                     }
                 }
+                always {
+                    cleanWs()
+                }
             } catch (e) {
                 currentBuild.result = 'FAILED'
                 throw e
             } finally {
                 notifyBuild(currentBuild.result)
+                cleanWs()
             }
         }
     }
