@@ -17,7 +17,7 @@ html(lang='en')
       .sixteen.columns
         .sign-in-out-block
           if req.isAuthenticated()
-            | {req.user.email}: &nbsp;
+            | #{req.user.email}: &nbsp;
             a(href='/settings') Account settings
             | &nbsp;&nbsp;&nbsp;
             a(href='/signout') Sign out
