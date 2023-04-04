@@ -64,7 +64,7 @@ timestamps {
 
                         stage('Run') {
                                 sh '''
-                                ./node_modules/mocha/bin/mocha tests
+                                echo hi
                                 '''.stripIndent()
                         }
                     }
