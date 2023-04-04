@@ -16,6 +16,7 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
+                                    ls -lah
                                     rm **/{package-lock.json,notejam.db}
                                 '''.stripIndent()
 
@@ -34,6 +35,7 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
+                                    ls -lah
                                     rm **/{package-lock.json,notejam.db}
                                 '''.stripIndent()
 
