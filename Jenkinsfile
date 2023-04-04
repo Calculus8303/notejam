@@ -42,17 +42,14 @@ timestamps {
                             }
                         }
                     }
-
-                    stage('Clean') {
-                        node('main') {
+                    
+                    node('main') {
+                        stage('Clean') {
                             sh '''
                                 rm -rf /home/ubuntu/notejam || true
                                 mkdir /home/ubuntu/notejam
                             '''.stripIndent()
                         }
-                    }
-
-                    node('main') {
                         stage('Unstash and Move') {
                             // Retrieve the built artifacts
                             unstash 'notejam-artifacts'
@@ -60,12 +57,6 @@ timestamps {
                             sh '''
                                 cp -r * /home/ubuntu/notejam/
                             '''.stripIndent()
-                        }
-
-                        stage('Run') {
-                                sh '''
-                                echo hi
-                                '''.stripIndent()
                         }
                     }
                 }
