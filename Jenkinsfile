@@ -16,7 +16,7 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
-                                    find . -name 'package-lock.json' -o -name 'notejam.db' -delete
+                                    rm **/{package-lock.json,notejam.db}
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
@@ -34,7 +34,7 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
-                                    find . -name 'package-lock.json' -o -name 'notejam.db' -delete
+                                    rm **/{package-lock.json,notejam.db}
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
