@@ -16,7 +16,7 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
-                                    rm -rf package-lock.json
+                                    rm package-lock.json notejam.db
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
@@ -34,7 +34,7 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
-                                    rm package-lock.json
+                                    rm package-lock.json notejam.db
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
