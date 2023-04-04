@@ -11,7 +11,7 @@ timestamps {
                     stage('Build') {
                         if (env.BRANCH_NAME == 'master') {
                             // Build and deploy the project if master branch
-                            node('main') {
+                            node('regular') {
                                 checkout scm
                                 sh '''
                                     npm install
@@ -46,8 +46,7 @@ timestamps {
                     node('main') {
                         stage('Clean') {
                             sh '''
-                                rm -rf /home/ubuntu/notejam || true
-                                mkdir /home/ubuntu/notejam
+                                find /home/ubuntu/notejam/* ! -name 'notejam.db' -delete
                             '''.stripIndent()
                         }
                         stage('Unstash and Move') {
