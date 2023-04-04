@@ -56,7 +56,8 @@ timestamps {
                             // Move the built artifacts to the desired location
                             sh '''
                                 cp -r * /home/ubuntu/notejam/
-                            '''.stripIndent()
+                                systemctl restart notejam
+                                '''.stripIndent()
                         }
                     }
                 }
