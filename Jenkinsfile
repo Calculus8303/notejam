@@ -47,7 +47,7 @@ timestamps {
                         stage('Clean') {
                             sh '''
                                 export old=$(date '+%Y%m%d-%H-%M')
-                                cp /home/ubuntu/notejam/notejam.db /home/ubuntu/notejam.db.$old
+                                cp /home/ubuntu/notejam/notejam.db /home/ubuntu/notejam.db.${old}
                                 find /home/ubuntu/notejam/* ! -name 'notejam.db' -delete
                             '''.stripIndent()
                         }
@@ -57,7 +57,7 @@ timestamps {
                             // Move the built artifacts to the desired location
                             sh '''
                                 cp -r * /home/ubuntu/notejam/
-                                cmp /home/ubuntu/notejam/notejam.db /home/ubuntu/notejam.db.$old
+                                cmp /home/ubuntu/notejam/notejam.db /home/ubuntu/notejam.db.${old}
                                 systemctl restart notejam
                                 '''.stripIndent()
                         }
