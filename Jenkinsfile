@@ -16,16 +16,11 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
-                                    ls -lah
                                     rm package-lock.json notejam.db
-                                    ls -lah
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
                                 stash includes: '**/*', name: 'notejam-artifacts'
-                                sh '''
-                                    ls -lah
-                                '''.stripIndent()
                             }
                         } else {
                             println 'Skip to build on Spot due to branch not master'
@@ -39,16 +34,11 @@ timestamps {
                                 sh '''
                                     npm install
                                     node db.js
-                                    ls -lah
                                     rm package-lock.json notejam.db
-                                    ls -lah
                                 '''.stripIndent()
 
                                 // Stash the built artifacts
                                 stash includes: '**/*', name: 'notejam-artifacts'
-                                sh '''
-                                    ls -lah
-                                '''.stripIndent()
                             }
                         }
                     }
